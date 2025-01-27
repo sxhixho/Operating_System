@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Function to display the menu
+display_menu() {
+    echo "User Management System"
+    echo "1. Add User"
+    echo "2. Reset User Password"
+    echo "3. Delete User"
+    echo "4. List Active Users"
+    echo "5. Quit"
+    echo -n "Enter your choice: "
+}
+
+# Main loop
+while true; do
+    display_menu
+    read choice
+    case $choice in
+        1)
+            ./create_user.sh
+            ;;
+        2)
+            ./change_password.sh
+            ;;
+        3)
+            ./delete_user.sh
+            ;;
+        4)
+            ./list_users.sh
+            ;;
+        5)
+            echo "Quitting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice, please try again."
+            ;;
+    esac
+done

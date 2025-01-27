@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Prompt for username
+echo -n "Enter username to delete: "
+read username
+
+# Delete user
+sudo userdel -r "$username"
+
+# Check if the user was deleted successfully
+if [ $? -eq 0 ]; then
+    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+    echo "$timestamp,Deleted user $username" >> userdeletion_log.csv
+    # Remove user from active_users.csv
+    grep -v "^$username," active_users.csv > temp && mv temp active_users.csv
+    echo "User $username deleted successfully."
+else
+    echo "Failed to delete user $username."
+fi

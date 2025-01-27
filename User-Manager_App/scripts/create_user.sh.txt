@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Prompt for username
+echo -n "Enter username to create: "
+read username
+
+# Prompt for password
+echo -n "Enter password for $username: "
+read -s password
+echo
+
+# Create user
+sudo useradd -m "$username"
+
+# Check if the user was created successfully
+if [ $? -eq 0 ]; then
+    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+    echo "$username,$timestamp" >> active_users.csv
+    echo "$timestamp,Created user $username" >> adduser_log.csv
+    
+    # Change user password
+    echo "$username:$password" | sudo chpasswd
+    
+    # Check if the password was changed successfully
+    if [ $? -eq 0 ]; then
+        echo "$timestamp,Changed password for user $username" >> passwordreset_log.csv
+        echo "User $username created successfully and password set."
+    else
+        echo "Failed to set password for user $username."
+    fi
+else
+    echo "Failed to create user $username."
+fi

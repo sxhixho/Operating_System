@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Active Users:"
+cat active_users.csv

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# 2.1 Compile producer-consumer.cpp file
+g++ -o producer-consumer producer-consumer.cpp -lpthread
+
+# 2.2 Execute the binary
+./producer-consumer
+
+# 2.3 Create folders named Consumer1 and Consumer2
+mkdir -p Consumer1 Consumer2
+
+# 2.4 Separate orders of Consumer1 and Consumer2 and save them in respective folders
+grep ',1,[0-9][0-9][0-9][0-9]-' processed.csv > Consumer1/orders_consumer1.csv
+grep ',2,[0-9][0-9][0-9][0-9]-' processed.csv > Consumer2/orders_consumer2.csv
+
+# 2.5 Print the number of processed orders of each consumer
+num_orders_consumer1=$(wc -l < Consumer1/orders_consumer1.csv)
+num_orders_consumer2=$(wc -l < Consumer2/orders_consumer2.csv)
+
+echo "Number of processed orders for Consumer 1: $num_orders_consumer1"
+echo "Number of processed orders for Consumer 2: $num_orders_consumer2"
